@@ -298,15 +298,15 @@ class Bank:
 
 
     def format_instruction(self, instruction_name, operands, address = None, source_bytes = None):
-        instruction = '        {instruction_name} {operands}'.format(
+        instruction = '    {instruction_name} {operands}'.format(
             instruction_name=instruction_name, 
             operands=', '.join(operands)
         )
 
-        if address is not None and source_bytes is not None:
+        if False: #address is not None and source_bytes is not None:
             return '{0:<50}; {1}: {2}'.format(instruction, hex_word(address), bytes_to_string(source_bytes))
         else:
-            return '{0:<50}'.format(instruction)
+            return '{}'.format(instruction)
 
 
     def format_data(self, data):
@@ -511,6 +511,15 @@ class Bank:
                             # remove the address from operand values and use the label instead
                             operand_values.pop()
                             operand_values.append(label)
+            elif value is not None and value >= 0xc000:
+                if value in self.labelled_addresses:
+                    label = self.labelled_addresses[value]
+                    operand = operand_values.pop()
+                    if operand.startswith('['):
+                        new_operand = f"[{label}]"
+                    else:
+                        new_operand = label
+                    operand_values.append(new_operand)
                             
 
         # check the instruction is not spanning 2 banks
