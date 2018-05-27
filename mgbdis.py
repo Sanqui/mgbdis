@@ -329,7 +329,7 @@ class Bank:
 
 
     def format_instruction(self, instruction_name, operands, address = None, source_bytes = None):
-        instruction = '        {instruction_name:<{operand_padding}} {operands}'.format(
+        instruction = '    {instruction_name:<{operand_padding}} {operands}'.format(
             instruction_name=instruction_name, 
             operand_padding=self.operand_padding,
             operands=', '.join(operands)
@@ -338,7 +338,7 @@ class Bank:
         if self.print_hex and address is not None and source_bytes is not None:
             return '{0:<50}; {1}: {2}'.format(instruction, hex_word(address), bytes_to_string(source_bytes))
         else:
-            return '{0:<50}'.format(instruction)
+            return '{0}'.format(instruction)
 
 
     def format_data(self, data):
